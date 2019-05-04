@@ -10,11 +10,13 @@ class Mahasiswa extends REST_Controller{
     public function __construct(){
         parent::__construct();
         $this->load->model('Mahasiswa_model', 'mhs');
+
+        $this->methods['index_get']['limit'] = 12;
     }
 
     public function index_get(){
 
-        $id = (int) $this->get('id');
+        $id = $this->get('nim');
 
         if($id === null){
             $mahasiswa = $this->mhs->getMahasiswa();
@@ -38,7 +40,7 @@ class Mahasiswa extends REST_Controller{
 
     public function index_delete(){
 
-        $id = (int) $this->delete('id');
+        $id = $this->delete('id');
 
         if($id === null){
             $this->response([
@@ -97,7 +99,7 @@ class Mahasiswa extends REST_Controller{
         if($this->mhs->updateMahasiswa($data, $id) > 0){
             $this->response([
                 'status' => true,
-                'message' => ' mahasiswa has been updated'
+                'message' => 'data mahasiswa has been updated'
             ], REST_Controller::HTTP_CREATED);
         }else{
             $this->response([
